@@ -4,6 +4,7 @@ public protocol GraphQLOperation: class {
   static var operationIdentifier: String? { get }
   
   var variables: GraphQLMap? { get }
+  var type: OperationType { get }
   
   associatedtype Data: GraphQLSelectionSet
 }
@@ -23,7 +24,18 @@ public extension GraphQLOperation {
 }
 
 public protocol GraphQLQuery: GraphQLOperation {}
+extension GraphQLQuery {
+    var type: OperationType { return .Query }
+}
 
 public protocol GraphQLMutation: GraphQLOperation {}
+extension GraphQLMutation {
+    var type: OperationType { return .Mutation }
+}
 
 public protocol GraphQLFragment: GraphQLSelectionSet {}
+
+public enum OperationType {
+    case Query
+    case Mutation
+}

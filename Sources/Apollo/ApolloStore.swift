@@ -1,13 +1,9 @@
 import Dispatch
 
 func rootKey<Operation: GraphQLOperation>(forOperation operation: Operation) -> CacheKey {
-  switch operation {
-  case is GraphQLQuery:
-    return "QUERY_ROOT"
-  case is GraphQLMutation:
-    return "MUTATION_ROOT"
-  default:
-    preconditionFailure("Unknown operation type")
+  switch operation.type {
+  case .Query: return "QUERY_ROOT"
+  case .Mutation: return "MUTATION_ROOT"
   }
 }
 
@@ -46,7 +42,7 @@ public final class ApolloStore {
           for subscriber in self.subscribers {
             subscriber.store(self, didChangeKeys: changedKeys, context: context)
           }
-          fulfill()
+            fulfill(Void())
         }
       }
     }
