@@ -11,8 +11,13 @@ extension HTTPURLResponse {
 
   var textEncoding: String.Encoding? {
     guard let encodingName = textEncodingName else { return nil }
-
-    return String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding(encodingName as CFString)))
+    #if os(iOS) || os(macOS)
+      return String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(
+        CFStringConvertIANACharSetNameToEncoding(encodingName as CFString))
+      )
+    #else
+      return String.Encoding.ascii // XXX: or .utf ???
+    #endif
   }
 }
 
