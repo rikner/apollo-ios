@@ -1,9 +1,13 @@
+// swift-tools-version:4.0
+
 import PackageDescription
 
 let package = Package(
     name: "Apollo",
-    targets: [
-        Target(name: "Apollo"),
+    products: [
+        .library(name: "Apollo", type: .dynamic, targets: ["Apollo"])
     ],
-    exclude: ["Tests", "Sources/ApolloSQLite"]
+    targets: [
+        .target(name: "Apollo"),
+    ]
 )
